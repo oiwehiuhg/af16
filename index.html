@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bank App</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <h1 id="app-title">My Bank</h1>
+
+        <div id="balance-box">
+            <p id="balance-label">Available balance</p>
+            <p id="balance">0</p>
+        </div>
+
+        <div id="entry-box">
+            <label id="amount-label" for="amount">Enter amount</label>
+            <input id="amount" type="number">
+        </div>
+
+        <div id="button-box">
+            <button id="credit-btn" class="action credit">Credit</button>
+            <button id="debit-btn" class="action debit">Debit</button>
+        </div>
+
+        <p id="note">Please enter an amount before pressing a button.</p>
+    </div>
+    <script>
+        // Find the elements by their ids
+        var balanceDisplay = document.getElementById("balance");
+        var amountInput = document.getElementById("amount");
+        var creditBtn = document.getElementById("credit-btn");
+        var debitBtn = document.getElementById("debit-btn");
+
+        // Starting balance
+        var balance = 0;
+
+        // Show the balance on the page and clear the input box
+        function updateScreen() {
+            balanceDisplay.textContent = balance.toFixed(2);
+            amountInput.value = "";
+        }
+
+        // Read the amount the user typed (returns null if it isn't valid)
+        function getAmount() {
+            var amount = Number(amountInput.value);
+
+            if (amountInput.value === "" || amount <= 0) {
+                alert("Please enter an amount greater than 0.");
+                return null;
+            }
+            return amount;
+        }
+
+        // Credit button - adds money
+        creditBtn.addEventListener("click", function () {
+            var amount = getAmount();
+            if (amount === null) {
+                return;
+            }
+            balance = balance + amount;
+            updateScreen();
+        });
+
+        // Debit button - takes money out
+        debitBtn.addEventListener("click", function () {
+            var amount = getAmount();
+            if (amount === null) {
+                return;
+            }
+            if (amount > balance) {
+                alert("Not enough money in your balance.");
+                return;
+            }
+            balance = balance - amount;
+            updateScreen();
+        });
+
+        updateScreen();
+    </script>
+</body>
+
+</html>
